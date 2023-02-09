@@ -1,4 +1,3 @@
 pytesseract
 openai
 python-dotenv
-kivy

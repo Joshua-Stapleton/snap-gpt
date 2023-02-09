@@ -16,31 +16,30 @@ def extract_text_from_image(image_path):
     text = pytesseract.image_to_string(image)
     return text
 
-#function to return files in a directory
-def fileInDirectory(my_dir: str):
+# function to return files in a directory
+def file_in_directory(my_dir: str):
     onlyfiles = [f for f in listdir(my_dir) if isfile(join(my_dir, f))]
     return(onlyfiles)
 
 
-#function comparing two lists
-def listComparison(OriginalList: list, NewList: list):
-    differencesList = [x for x in NewList if x not in OriginalList] #Note if files get deleted, this will not highlight them
-    return(differencesList)
+# function comparing two lists
+def list_comparison(original_list: list, new_list: list):
+    differences_list = [x for x in new_list if x not in original_list] # Note if files get deleted, this will not highlight them
+    return(differences_list)
 
 
-def fileWatcher(watch_directory: str, notification_type:str):
+def file_watcher(watch_directory: str, notification_type:str="print"):
     while True:
         if 'watching' not in locals(): # Check if this is the first time the function has run
-            previousFileList = fileInDirectory(watch_directory)
+            previous_file_list = file_in_directory(watch_directory)
         
         time.sleep(1)
-        newFileList = fileInDirectory(watch_directory)
-        fileDiff = listComparison(previousFileList, newFileList)
-        previousFileList = newFileList
-
-        if len(fileDiff) == 0: continue
-        print(watch_directory+"/"+fileDiff[0])
-        extracted_text = extract_text_from_image(watch_directory+"/"+fileDiff[0])
+        new_file_list = file_in_directory(watch_directory)
+        file_diff = list_comparison(previous_file_list, new_file_list)
+        previous_file_list = new_file_list
+        if len(file_diff) == 0: continue
+        print(watch_directory+"/"+file_diff[0])
+        extracted_text = extract_text_from_image(watch_directory+"/"+file_diff[0])
         response = generate_gpt3_response(extracted_text)
         if notification_type == "email":
             send_email(os.environ.get('SENDING_EMAIL_ADDRESS'), os.environ.get('RECEIVING_EMAIL_ADDRESS'), 'Answer', extracted_text + "\n-----------------------\n" + response, os.environ.get('EMAIL_PASSWORD'))
@@ -49,4 +48,4 @@ def fileWatcher(watch_directory: str, notification_type:str):
         else: # print in terminal
             print(response)
 
-fileWatcher(watch_directory, "email")
+file_watcher(watch_directory, notification_type="email")

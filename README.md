@@ -8,10 +8,14 @@ source venv/bin/activate
 python3 -m pip install -r requirements.txt
 ```
 
-Also ensure to add your OpenAI API credentials and a home path variable to a .env file in the form:
+Also ensure to add your OpenAI API credentials, a home path variable, and email login credentials to a .env file in the form:
 ```
 OPENAI_KEY='...'
 HOME_PATH='...'
+SENDING_EMAIL_ADDRESS='...'
+RECEIVING_EMAIL_ADDRESS='...'
+EMAIL_PASSWORD='...'
 ```
+See [Google Account Help](https://support.google.com/accounts/answer/185833?visit_id=638115306131809626-4056881382&p=InvalidSecondFactor&rd=1) for more information on how to obtain an email app password.
 
-Then run `automation.py`, and run to see the results.
+Finally, run `automation.py`, and run to see the results. Specify whether you would like the results to be sent to your email or printed out in the terminal by passing in the notification type to the .
