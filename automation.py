@@ -5,6 +5,7 @@ from PIL import Image
 import time
 import pytesseract
 from gpt_functions import generate_gpt3_response
+from popup_module import send_email
 from dotenv import load_dotenv
 load_dotenv()
 watch_directory = os.environ.get('HOME_PATH')
@@ -27,24 +28,25 @@ def listComparison(OriginalList: list, NewList: list):
     return(differencesList)
 
 
-def fileWatcher(my_dir: str, pollTime: int):
+def fileWatcher(watch_directory: str, notification_type:str):
     while True:
         if 'watching' not in locals(): # Check if this is the first time the function has run
             previousFileList = fileInDirectory(watch_directory)
-            watching = 1
-            print('First Time')
-            print(previousFileList)
         
-        time.sleep(pollTime)
-        
+        time.sleep(1)
         newFileList = fileInDirectory(watch_directory)
-        
         fileDiff = listComparison(previousFileList, newFileList)
-        
         previousFileList = newFileList
+
         if len(fileDiff) == 0: continue
         print(watch_directory+"/"+fileDiff[0])
         extracted_text = extract_text_from_image(watch_directory+"/"+fileDiff[0])
-        print(generate_gpt3_response(extracted_text))
+        response = generate_gpt3_response(extracted_text)
+        if notification_type == "email":
+            send_email(os.environ.get('SENDING_EMAIL_ADDRESS'), os.environ.get('RECEIVING_EMAIL_ADDRESS'), 'Answer', extracted_text + "\n-----------------------\n" + response, os.environ.get('EMAIL_PASSWORD'))
+        # elif notification_type == "popup":
+        #     popup(extracted_text)
+        else: # print in terminal
+            print(response)
 
-fileWatcher(watch_directory, 1)
+fileWatcher(watch_directory, "email")
