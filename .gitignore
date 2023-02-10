@@ -5,4 +5,4 @@ venv
 /venv/
 .env
 __pycache__/*
-__pycache__
+/Users/joshuastapleton/Desktop/chatgpt_automation/chatgpt-automation/__pycache__
