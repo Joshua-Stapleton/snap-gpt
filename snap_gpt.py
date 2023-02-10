@@ -42,13 +42,16 @@ def file_watcher(watch_directory: str, notification_type:str="print"):
         print(watch_directory+"/"+file_diff[0])
         extracted_text = extract_text_from_image(watch_directory+"/"+file_diff[0])
         # remove any characters which cannot be processed by gpt3
-        extracted_text = re.sub(u"(\u2018|\u2019|\xa9)", "", extracted_text)
+        extracted_text = re.sub(u"(\u2018|\u2019|\xa9|\u201d|\xae|\u2014)", "", extracted_text)
         response = generate_gpt3_response(extracted_text)
-        if notification_type == "email":
+        if notification_type == "all":
+            print(response)
+            send_email(os.environ.get('SENDING_EMAIL_ADDRESS'), os.environ.get('RECEIVING_EMAIL_ADDRESS'), 'Answer', extracted_text + "\n-----------------------\n" + response, os.environ.get('EMAIL_PASSWORD'))
+        elif notification_type == "email":
             send_email(os.environ.get('SENDING_EMAIL_ADDRESS'), os.environ.get('RECEIVING_EMAIL_ADDRESS'), 'Answer', extracted_text + "\n-----------------------\n" + response, os.environ.get('EMAIL_PASSWORD'))
         # elif notification_type == "popup":
         #     popup(extracted_text)
         else: # print in terminal
             print(response)
 
-file_watcher(watch_directory, notification_type="email")
+file_watcher(watch_directory, notification_type="all")

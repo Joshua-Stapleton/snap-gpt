@@ -19,4 +19,4 @@ Your home path variable should be to a folder that contains the images you would
 
 See [Google Account Help](https://support.google.com/accounts/answer/185833?visit_id=638115306131809626-4056881382&p=InvalidSecondFactor&rd=1) for more information on how to obtain an email app password.
 
-Finally, run `snap_gpt.py`, and run to see the results. Specify whether you would like the results to be sent to your email or printed out in the terminal by passing in the notification type to the `file_watcher` function.
+Finally, run `snap_gpt.py`, and run to see the results. Specify whether you would like the results to be sent to your email, printed out in the terminal, or both by passing in the notification type to the `file_watcher` function.
