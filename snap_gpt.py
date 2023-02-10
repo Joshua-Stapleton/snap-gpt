@@ -12,8 +12,17 @@ load_dotenv()
 watch_directory = os.environ.get('HOME_PATH')
 
 
-def extract_text_from_image(image_path):
+def extract_text_from_image(image_path:str, crop:bool=False):
     image = Image.open(image_path)
+
+    if crop:
+        width, height = image.size
+        left = width / 4
+        top = height / 6
+        right = 3 * width / 4
+        bottom = 3 * height / 4
+        image = image.crop((left, top, right, bottom))
+
     text = pytesseract.image_to_string(image)
     return text
 
@@ -42,7 +51,7 @@ def file_watcher(watch_directory: str, notification_type:str="print"):
         print(watch_directory+"/"+file_diff[0])
         extracted_text = extract_text_from_image(watch_directory+"/"+file_diff[0])
         # remove any characters which cannot be processed by gpt3
-        extracted_text = re.sub(u"(\u2018|\u2019|\xa9|\u201d|\xae|\u2014)", "", extracted_text)
+        extracted_text = re.sub(u"(\u2018|\u2019|\xa9|\u201d|\xae|\u2014|\u201c)", "", extracted_text)
         response = generate_gpt3_response(extracted_text)
         if notification_type == "all":
             print(response)
