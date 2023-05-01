@@ -1,4 +1,4 @@
-This lightweight system implements text extraction for the purpose of answering questions posed in images automatically using LLMs. It is designed to be used in conjunction with the [OpenAI API](https://openai.com/) (Both GPT-3 and GPT-4 functionality offered). 
+This lightweight system implements text extraction / OCR for the purpose interacting with image text using LLMs. It is designed to be used in conjunction with the [OpenAI API](https://openai.com/) (Both GPT-3 and GPT-4 functionality offered). Once started, the system runs in the background; at any given moment, you can screenshot a particularly vexing question or text-based problem, and within a few seconds you will receive a chatGPT / GPT-generated answer.
 
 To setup, ensure to run:
 ```
