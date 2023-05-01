@@ -5,7 +5,7 @@ from os.path import isfile, join
 from PIL import Image
 import time
 import pytesseract
-from functions.gpt_functions import generate_gpt3_response
+from functions.gpt_functions import generate_gpt4_response
 from functions.notification_functions import send_email
 from dotenv import load_dotenv
 load_dotenv()
@@ -51,7 +51,7 @@ def file_watcher(watch_directory: str, notification_type:str="print"):
         extracted_text = extract_text_from_image(watch_directory+"/"+file_diff[0])
         # remove any characters which cannot be processed by gpt3
         extracted_text = re.sub(u"(\u2018|\u2019|\xa9|\u201d|\xae|\u2014|\u201c|\xbb)", "", extracted_text)
-        response = generate_gpt3_response(extracted_text)
+        response = generate_gpt4_response(extracted_text)
         if notification_type == "all":
             print(response)
             send_email(os.environ.get('SENDING_EMAIL_ADDRESS'), os.environ.get('RECEIVING_EMAIL_ADDRESS'), 'Answer', extracted_text + "\n-----------------------\n" + response, os.environ.get('EMAIL_PASSWORD'))
