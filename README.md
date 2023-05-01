@@ -1,4 +1,4 @@
-This lightweight system implements text extraction for the purpose of answering questions posed in images automatically using LLMs. It is designed to be used in conjunction with the [OpenAI API](https://openai.com/). 
+This lightweight system implements text extraction for the purpose of answering questions posed in images automatically using LLMs. It is designed to be used in conjunction with the [OpenAI API](https://openai.com/) (Both GPT-3 and GPT-4 functionality offered). 
 
 To setup, ensure to run:
 ```
