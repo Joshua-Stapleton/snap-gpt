@@ -51,7 +51,8 @@ def file_watcher(watch_directory: str, notification_type:str="print"):
         extracted_text = extract_text_from_image(watch_directory+"/"+file_diff[0])
         # remove any characters which cannot be processed by gpt3
         extracted_text = re.sub(u"(\u2018|\u2019|\xa9|\u201d|\xae|\u2014|\u201c|\xbb)", "", extracted_text)
-        response = generate_gpt4_response(extracted_text)
+        prompt = "" + extracted_text
+        response = generate_gpt4_response(prompt)
         if notification_type == "all":
             print(response)
             send_email(os.environ.get('SENDING_EMAIL_ADDRESS'), os.environ.get('RECEIVING_EMAIL_ADDRESS'), 'Answer', extracted_text + "\n-----------------------\n" + response, os.environ.get('EMAIL_PASSWORD'))
@@ -63,3 +64,6 @@ def file_watcher(watch_directory: str, notification_type:str="print"):
             print(response)
 
 file_watcher(watch_directory, notification_type="all")
+
+
+# what is the capital of France?

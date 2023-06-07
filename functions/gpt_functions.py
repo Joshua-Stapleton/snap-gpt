@@ -2,7 +2,7 @@ import openai
 from dotenv import load_dotenv
 import os 
 load_dotenv()
-OPENAI_KEY = os.environ.get('OPENAI_KEY')
+OPENAI_KEY = os.environ.get('OPEN_AI_KEY')
 
 
 def generate_gpt3_response(prompt:str) -> str:
@@ -29,7 +29,7 @@ def generate_gpt4_response(prompt:str) -> str:
     response = openai.ChatCompletion.create(
         model="gpt-4",
         max_tokens=1024,
-        temperature=0.5,
+        temperature=1,
         messages = message
     )
 
